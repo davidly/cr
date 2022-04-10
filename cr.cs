@@ -27,6 +27,7 @@ class CopyRaw
         Console.WriteLine( @"              cr -d:2 -e:CR2 f:\ ." );
         Console.WriteLine( @"              cr -e:.NEF f:\dcim ." );
         Console.WriteLine( @"              cr e: -g" );
+        Console.WriteLine( @"  On MacOS:   cr /Volumes/Oly\ E-M10II ." );
         Console.WriteLine( @"  notes:" );
         Console.WriteLine( @"    Copies .3FR .ARW, .CR2, .CR3, .DNG, .NEF, .ORF, .RAF, .RW2 files by default. Override with -e" );
         Console.WriteLine( @"    The -d:N argument isn't a count of days from the current day. It's the number of days" );
