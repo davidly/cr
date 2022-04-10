@@ -3,7 +3,9 @@ Copy RAW. Windows command line app to copy RAW files from a camera's memory card
 
 To build, use your favorite version of .net:
 
-    c:\windows\microsoft.net\framework64\v4.0.30319\csc.exe cr.cs /nologo /nowarn:0168
+    c:\windows\microsoft.net\framework64\v4.0.30319\csc.exe cr.cs /nologo /D:_WINDOWS /nowarn:0168
+    
+Or, use the m.sh and cr.csproj to build with net6.0 on MacOS. This will produce a CR binary in the same folder.
     
 Usage:    
 
@@ -18,9 +20,10 @@ Usage:
                   cr f:\dcim\100canon d:\pics\oct29_20
                   cr -j f:\dcim d:\pics\oct29_20
                   cr -d:3 f:\ .
-                  cr /d:2 -e:CR2 f:\ .
-                  cr /e:.NEF f:\dcim .
-                  cr e: /g
+                  cr -d:2 -e:CR2 f:\ .
+                  cr -e:.NEF f:\dcim .
+                  cr e: -g
+      on MacOS:   cr /Volumes/OLY\ E-M10II .
       notes:
         Copies .3FR .ARW, .CR2, .CR3, .DNG, .NEF, .ORF, .RAF, .RW2 files by default. Override with -e
         The -d:N argument isn't a count of days from the current day. It's the number of days
@@ -32,6 +35,7 @@ Usage:
         If lightroom has written metadata to .DNG files on disk, those won't be over-written.
         Use -g to get a breakdown of what -d:N value to use if you can't remember when you took photos.
         If <destinationpath> isn't specified, -g is assumed.
+        On Windows, use either - or / for arguments. On MacOS, only - is supported.
         
 Sample Usage: D:\>cr g:
 
