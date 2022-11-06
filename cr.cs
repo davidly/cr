@@ -27,6 +27,7 @@ class CopyRaw
         Console.WriteLine( @"              cr -d:2 -e:CR2 f:\ ." );
         Console.WriteLine( @"              cr -e:.NEF f:\dcim ." );
         Console.WriteLine( @"              cr e: -g" );
+        Console.WriteLine( @"              cr e" );
         Console.WriteLine( @"  On MacOS:   cr /Volumes/Oly\ E-M10II ." );
         Console.WriteLine( @"  notes:" );
         Console.WriteLine( @"    Copies .3FR .ARW, .CR2, .CR3, .DNG, .NEF, .ORF, .RAF, .RW2 files by default. Override with -e" );
@@ -48,6 +49,7 @@ class CopyRaw
         public int day;
         public int year;
         public int count;
+        public long bytesTotal;
         public string datestring;
 
         public DayYear( int d, int y )
@@ -55,6 +57,7 @@ class CopyRaw
             day = d;
             year = y;
             count = 0;
+            bytesTotal = 0;
         } //DayYear
     } //DayYear
 
@@ -162,7 +165,11 @@ class CopyRaw
             else
             {
                 if ( null == srcRoot )
+                {
                     srcRoot = args[i];
+                    if ( 1 == srcRoot.Length && '/' != srcRoot[ 0 ] )
+                        srcRoot += ':';
+                }
                 else if ( null == dstRoot )
                     dstRoot = args[i];
                 else
@@ -243,21 +250,24 @@ class CopyRaw
 
         if ( showGrouping )
         {
-            int daysback = 1;
-
             foreach ( FileInfo fi in sourceFiles )
             {
                 DayYear dy = new DayYear( fi.LastWriteTime.DayOfYear, fi.LastWriteTime.Year );
                 DayYear dyActual;
 
                 if ( dySet.TryGetValue( dy, out dyActual ) )
+                {
+
                     dyActual.count++;
+                    dyActual.bytesTotal += fi.Length;
+                }
             }
 
-           Console.WriteLine( "Date                             Days  Photos" );
-           foreach ( DayYear dy in dySet )
-               Console.WriteLine( "{0,30}   {1,4} {2,7}", dy.datestring, daysback++, dy.count );
-//               Console.WriteLine( "{0,3}  {1}  {2,4} {3,7}", dy.day, dy.year, daysback++, dy.count );
+            Console.WriteLine( "Date                             Days  Photos                 Size" );
+            int daysback = 1;
+
+            foreach ( DayYear dy in dySet )
+               Console.WriteLine( "{0,30}   {1,4} {2,7} {3,20}", dy.datestring, daysback++, dy.count, dy.bytesTotal.ToString( "N0" ) );
 
             return;
         }
