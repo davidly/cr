@@ -1,5 +1,5 @@
 # cr
-Copy RAW. Windows command line app to copy RAW files from a camera's memory card to disk.
+Copy RAW. Command line app to copy RAW files from a camera's memory card to disk.
 
 To build, use your favorite version of .net:
 
